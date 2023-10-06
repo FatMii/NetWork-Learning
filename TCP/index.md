@@ -16,3 +16,4 @@ TCP 协议通过三次握手建立可靠的点对点连接，具体过程是：
 - Server 完成数据的发送后，将 FIN 包发送给 Client，然后进入 LAST_ACK 状态，等待 Client 返回 ACK 包，此后 Server 既不能读取数据，也不能发送数据。
 - Client 收到 FIN 包后向 Server 发送 ACK 包，然后进入 TIME_WAIT 状态，接着等待足够长的时间（2MSL）以确保 Server 接收到 ACK 包，最后回到 CLOSED 状态，释放网络资源。
 - Server 收到 Client 返回的 ACK 包后便回到 CLOSED 状态，释放网络资源
+
