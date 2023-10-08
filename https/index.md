@@ -1,3 +1,27 @@
+# https与http的区别?
+
+HTTPS 要比 HTTPS 多了 secure 安全性这个概念，实际上， HTTPS 并不是一个新的应用层协议，它其实就是 HTTP + TLS/SSL 协议组合而成，而安全性的保证正是 SSL/TLS 所做的工作。
+
+**「SSL」**
+安全套接层（Secure Sockets Layer）
+
+
+**「TLS」**
+（传输层安全，Transport Layer Security）
+
+现在主流的版本是 TLS/1.2, 之前的 TLS1.0、TLS1.1 都被认为是不安全的，在不久的将来会被完全淘汰。
+
+**「HTTPS 就是身披了一层 SSL 的 HTTP」。**
+
+![](../static/https1.png)
+
+- 那么区别有哪些呢👇
+ 1. HTTP 是明文传输协议，HTTPS 协议是由 SSL+HTTP 协议构建的可进行加密传输、身份认证的网络协议，比 HTTP 协议安全。
+ 2. HTTPS比HTTP更加安全，对搜索引擎更友好，利于SEO,谷歌、百度优先索引HTTPS网页。
+ 3. HTTPS标准端口443，HTTP标准端口80。
+ 4. HTTPS需要用到SSL证书，而HTTP不用。
+
+
 # 介绍 HTTPS 握手过程
 
 - 客户端请求服务器，并告诉服务器自身支持的加密算法以及密钥长度等信息
