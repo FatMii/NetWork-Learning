@@ -8,7 +8,7 @@
 
 keep-alive技术的创建目的，能在多次HTTP之前重用同一个TCP连接，从而减少创建/关闭多个 TCP 连接的开销（包括响应时间、CPU 资源、减少拥堵等），参考如下示意图（来源：维基百科）：
 
-![Alt text](../static/keep-alive.png)
+![Alt text](../assert/keep-alive.png)
 
 **客户端如何开启**
 

@@ -4,13 +4,13 @@ DNS 协议提供的是一种主机名到 IP 地址的转换服务，就是我们
 
 「我们通过一张图来看看它的查询过程吧」👇
 
-![Alt text](../static/DNS1.png)
+![Alt text](../assert/DNS1.png)
 
 这张图很生动的展示了DNS在本地DNS服务器是如何查询的，「一般向本地DNS服务器发送请求是递归查询的」
 
 本地 DNS 服务器向其他域名服务器请求的过程是迭代查询的过程👇
 
-![Alt text](../static/DNS2.png)
+![Alt text](../assert/DNS2.png)
 
 
 

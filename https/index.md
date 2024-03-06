@@ -12,7 +12,7 @@ HTTPS 要比 HTTPS 多了 secure 安全性这个概念，实际上， HTTPS 并�
 
 **「HTTPS 就是身披了一层 SSL 的 HTTP」。**
 
-![](../static/https1.png)
+![](../assert/https1.png)
 
 - 那么区别有哪些呢 👇
 
@@ -66,7 +66,7 @@ HTTPS 要比 HTTPS 多了 secure 安全性这个概念，实际上， HTTPS 并�
 
 梳理起来，可以把 **「TLS 1.2 握手过程」** 分为主要的五步 👇
 
-![Alt text](../static/https2.png)
+![Alt text](../assert/https2.png)
 
 1. Client 发起一个 HTTPS 请求，连接 443 端口。这个过程可以理解成是「请求公钥的过程」。
 
@@ -89,7 +89,7 @@ HTTPS 要比 HTTPS 多了 secure 安全性这个概念，实际上， HTTPS 并�
 
 接下来考虑一个问题，**「如果公钥被中间人拿到纂改怎么办呢？」**
 
-![Alt text](../static/https3.png)
+![Alt text](../assert/https3.png)
 
 **「客户端可能拿到的公钥是假的，解决办法是什么呢？」**
 
@@ -103,9 +103,9 @@ HTTPS 要比 HTTPS 多了 secure 安全性这个概念，实际上， HTTPS 并�
 ## 先介绍数字证书
 引出一个概念叫CA
 CA就是 Certificate Authority，颁发数字证书的机构。作为受信任的第三方，CA承担公钥体系中公钥的合法性检验的责任。证书就是源服务器向可信任的第三方机构申请的数据文件。这个证书除了表明这个域名是属于谁的，颁发日期等，还包括了第三方证书的私钥。服务器将公钥放在数字证书中，只要证书是可信的，公钥就是可信的。下图是飞书域名的证书中部分内容的信息👇
-![Alt text](../static/https4.png)
+![Alt text](../assert/https4.png)
 
-![Alt text](../static/https5.png)
+![Alt text](../assert/https5.png)
 
 ## 数字签名
 
@@ -115,14 +115,14 @@ CA就是 Certificate Authority，颁发数字证书的机构。作为受信任�
 
  - 生成 CSR 后，申请人将其发送给 CA，CA 会验证其包含的信息是否正确，如果正确，则使用颁发的私钥对证书进行数字签名，然后将签名放在证书内随证书一起发送给申请人。
 
-![Alt text](../static/https6.png)
+![Alt text](../assert/https6.png)
 
 
 - 在SSL握手阶段，浏览器在收到服务器的证书后，使用CA的公钥进行解密，取出证书中的数据、数字签名以及服务器的公钥。如果解密成功，则可验证服务器身份真实。之后浏览器再对数据做Hash运算，将结果与数字签名作对比，如果一致则可以认为内容没有收到篡改
 
 - 对称加密和非对称加密是公钥加密，私钥解密， 而数字签名正好相反，是私钥加密（签名），公钥解密（验证）
 
-![](../static/https7.png)
+![](../assert/https7.png)
 
 这里唯一不同的是，假设对网站信息加密的算法是MD5，通过MD5加密后，**「然后通过第三方机构的私钥再次对其加密，生成数字签名」**
 
@@ -148,7 +148,7 @@ CA就是 Certificate Authority，颁发数字证书的机构。作为受信任�
 第三方认证机构是一个公开的平台，中间人可以去获取。
 如果没有数字签名的话，这样子可以就会有下面情况👇
 
-![](../static/https8.png)
+![](../assert/https8.png)
 
 
 
