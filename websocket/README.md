@@ -36,7 +36,9 @@ WebSocket在建立连接时需要进行握手阶段。握手阶段包括以下�
 客户端向服务端发送请求，请求建立WebSocket连接。
 
 请求中包含一个Connection: Upgrade参数，用于标识希望连接升级
+
 请求中包含一个Upgrade: WebSocket参数，用于标识该请求是WebSocket连接。
+
 请求中包含一个Sec-WebSocket-Key参数，用于生成WebSocket的随机密钥。
 
 服务端接收到请求后，生成一个随机密钥，并使用随机密钥生成一个新的Sec-WebSocket-Accept参数。
