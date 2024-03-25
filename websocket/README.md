@@ -15,7 +15,8 @@
 5. 数据格式：WebSocket 支持文本和`二进制数据`的传输，而 HTTP 主要是传输文本数据。
 
 6. 数据传输方式：WebSocket 实现了全双工通信，客户端和服务器可以同时发送和接收数据，而 HTTP 是单向的，客户端发起请求，服务器响应数据。
-协议标识：WebSocket 使用 ws:// 或 wss:// 前缀标识，而 HTTP 使用 http:// 或 https://
+
+7. 协议标识：WebSocket 使用 ws:// 或 wss:// 前缀标识，而 HTTP 使用 http:// 或 https://
 
 当然肯定有缺点的：
 
