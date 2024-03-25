@@ -112,10 +112,10 @@ eval(maliciousScript);
 
 防御 CSRF 攻击有多种手段：
 
-不使用cookie
-为表单添加校验的 token 校验
-cookie中使用sameSite字段
-服务器检查 referer 字段
+- 不使用cookie
+- 为表单添加校验的 token 校验
+- cookie中使用sameSite字段
+- 服务器检查 referer 字段
 
 
 
