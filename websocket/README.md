@@ -1,8 +1,25 @@
-# 1.WebSocket是什么？WebSocket 是 **基于TCP** 的一种新的应用层网络协议。它提供了一个全双工的通道，允许服务器和客户端之间实时双向通信。因此，在 WebSocket 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输，客户端和服务器之间的数据交换变得更加简单。WebSocket
+# 1.WebSocket是什么？
+
+WebSocket 是 **基于TCP** 的一种新的应用层网络协议。它提供了一个全双工的通道，允许服务器和客户端之间实时双向通信。因此，在 WebSocket 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输，客户端和服务器之间的数据交换变得更加简单。
+
+HTTP 的生命周期通过 Request 来界定，也就是 Request 一个 Response，那么在 Http1.0 协议中，这次 Http 请求就结束了。在 Http1.1 中进行了改进，是的有一个 connection: Keep-alive，也就是说，在一个 Http 连接中，可以发送多个 Request，接收多个 Response。 但是必须记住，在 Http 中一个 Request 只能对应有一个 Response，而且这个 Response 是被动的，不能主动发起。
+
+WebSocket 是基于 Http 协议的，或者说借用了 Http 协议来完成一部分握手，在握手阶段 与 Http 是相同的。我们来看一个 websocket 握手协议的实现，基本是 2 个属性，`upgrade， connection`。
+
+```javascript
+GET /chat HTTP/1.1
+Host: server.example.com
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw== Sec-WebSocket-Protocol: chat, superchat Sec-WebSocket-Version: 13
+Origin: http://example.com
+
+```
+
 
 # 2.与 HTTP 协议的区别
 
-与 HTTP 协议相比，WebSocket 具有以下优点：
+WebSocket 与 HTTP 协议相比，WebSocket 具有以下优点：
 
 1. 更高的实时性能：WebSocket 允许服务器和客户端之间实时双向通信，从而提高了实时通信场景中的性能。
 
