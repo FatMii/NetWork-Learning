@@ -334,3 +334,9 @@ HTTP的应用场景中通常端与端之间存在大量的交互，非对称加�
 #  使用 HTTPS 会被抓包吗?
 
 会被抓包，HTTPS 只防止用户在不知情的情况下通信被监听，如果用户主动授信，是可以构建“中间人”网络，代理软件可以对传输内容进行解密。
+
+# 知道meta标签有把http换成https的功能吗？
+
+```javascript
+<meta http-equiv ="Content-Security-Policy" content="upgrade-insecure-requests">
+```
