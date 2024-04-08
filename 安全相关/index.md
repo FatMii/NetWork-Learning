@@ -71,7 +71,7 @@ document.getElementById('content').innerHTML = maliciousScript;
 ### 防范手段：
 1. 输入过滤
 2. 输出过滤
-3. 加httponly 请求头  锁死cookie
+3. 加httponly 请求头  锁死cookie /浏览器将禁止页面的Javascript 访问带有 HttpOnly 属性的Cookie
 
 ## CSRF：Cross-site request forgery
 
