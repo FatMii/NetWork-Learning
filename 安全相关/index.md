@@ -21,7 +21,7 @@ CSP 也是解决 XSS 攻击的一个强力手段
 # xss和csrf 攻击
 
 
-## XSS：
+## XSS：Cross-site Scripting
 
 - XSS 是指跨站脚本攻击。攻击者利用站点的漏洞，在表单提交时，在表单内容中加入一些恶意脚本，当其他正常用户浏览页面，而页面中刚好出现攻击者的恶意脚本时，脚本被执行，从而使得页面遭到破坏，或者用户信息被窃取。
 
@@ -61,21 +61,58 @@ document.getElementById('content').innerHTML = maliciousScript;
 ### XSS攻击可以分为3类：反射型（非持久型）、存储型（持久型）、基于DOM。
 
 
-
 - 1、反射型 （Reflected XSS ） 发出请求时，XSS代码出现在url中，作为输入提交到服务器端，服务器端解析后响应，XSS代码随响应内容一起传回给浏览器，最后浏览器解析执行XSS代码。这个过程像一次反射，所以叫反射型XSS。
+
+假设有一个搜索页面，用户的搜索词通过URL参数传递，如 https://example.com/search?q=keyword。
+如果服务器将用户输入的搜索词直接反射在页面上，攻击者可以通过构造恶意的URL来实施攻击。例如：
+
+```php
+https://example.com/search?q=<script>alert('XSS')</script>
+```
+
+如果这个URL被访问，服务器将 <script>alert('XSS')</script> 直接嵌入到HTML中，从而弹出一个警告框。
+
+
 
 - 2、存储型存  Stored XSS和 Reflected XSS的差别就在于，具有攻击性的脚本被保存到了服务器端（数据库，内存，文件系统）并且可以被普通用户完整的从服务的取得并执行，从而获得了在网络上传播的能力。
 
+在一个论坛应用中，用户可以提交评论。如果应用没有正确地清理用户提交的数据，攻击者可以提交包含恶意脚本的评论。例如，攻击者可能会提交以下评论：
+
+```javascript
+<script>alert('XSS')</script>
+```
+
+该脚本存储在服务器上，并且每当任何用户浏览包含该评论的页面时，脚本都会被执行，导致XSS攻击。
+
+
 - 3、DOM型 （DOM-based or local XSS） 即基于DOM或本地的 XSS 攻击：其实是一种特殊类型的反射型 XSS，它是基于 DOM文档对象模型的一种漏洞。可以通过 DOM来动态修改页面内容，从客户端获取 DOM中的数据并在本地执行。基于这个特性，就可以利用 JS脚本来实现 XSS漏洞的利用。
+
+考虑一个网页，其中包含以下JavaScript代码：
+
+```javascript
+document.getElementById('output').innerHTML = location.hash.substring(1);
+```
+
+如果一个用户访问如下URL：
+
+```javascript
+https://example.com/#<img src=x onerror=alert('XSS')>
+```
+
+此代码片段会将 URL 的哈希部分（<img src=x onerror=alert('XSS')>）直接设置为页面元素的 innerHTML，从而执行恶意代码。
+
+
 
 ### 防范手段：
 1. 输入过滤
 2. 输出过滤
-3. 加httponly 请求头  锁死cookie /浏览器将禁止页面的Javascript 访问带有 HttpOnly 属性的Cookie
+3. 加 httponly 请求头  锁死cookie (浏览器将禁止页面的Javascript 访问带有 HttpOnly 属性的Cookie)
 
-## CSRF：Cross-site request forgery
+## CSRF：Cross-site request forgery 
 
-```dotnetcli
+跨站请求伪造
+
+```javascript
 1.  用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A；
 2.  在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器，此时用户登录网站A成功，可以正常发送请求到网站A；
 3.  用户未退出网站A之前，在同一浏览器中，打开一个TAB页访问网站B；
@@ -99,6 +136,7 @@ document.getElementById('content').innerHTML = maliciousScript;
   <script src="payload.js"></script>
 </body>
 </html>
+
 // payload.js
 const maliciousScript = `
   const form = document.getElementById('transfer-form');
@@ -112,26 +150,26 @@ eval(maliciousScript);
 
 防御 CSRF 攻击有多种手段：
 
-- 不使用cookie
-- 为表单添加校验的 token 校验
-- cookie中使用sameSite字段
-- 服务器检查 referer 字段
+- 不使用 `cookie`
+- 为表单添加校验的 `token` 校验
+- cookie中使用 `sameSite`字段
+- 服务器检查 `referer` 字段 (记录了该 HTTP 请求的来源地)
 
 
 
 # 身份验证过程中会涉及到密钥，对称加密，非对称加密，摘要的概念，请解释一下
 
-密钥
+- 密钥
 
-密钥是一种参数，它是在明文转换为密文或将密文转换为明文的算法中输入的参数。密钥分为对称密钥与非对称密钥，分别应用在对称加密和非对称加密上。
+密钥是一种参数，它是在明文转换为密文或将密文转换为明文的算法中输入的参数。密钥分为`对称密钥`与`非对称密钥`，分别应用在`对称加密`和`非对称加密上`。
 
-对称加密
+- 对称加密
 
-对称加密又叫做私钥加密，即信息的发送方和接收方使用同一个密钥去加密和解密数据。对称加密的特点是算法公开、加密和解密速度快，适合于对大数据量进行加密，常见的对称加密算法有 DES、3DES、TDEA、Blowfish、RC5 和 IDEA。
+对称加密又叫做`私钥加密`，即信息的发送方和接收方使用同一个密钥去加密和解密数据。对称加密的特点是算法公开、加密和解密速度快，适合于对大数据量进行加密，常见的对称加密算法有 DES、3DES、TDEA、Blowfish、RC5 和 IDEA。
 
-非对称加密
+- 非对称加密
 
-非对称加密也叫做公钥加密。非对称加密与对称加密相比，其安全性更好。对称加密的通信双方使用相同的密钥，如果一方的密钥遭泄露，那么整个通信就会被破解。而非对称加密使用一对密钥，即公钥和私钥，且二者成对出现。私钥被自己保存，不能对外泄露。公钥指的是公共的密钥，任何人都可以获得该密钥。用公钥或私钥中的任何一个进行加密，用另一个进行解密。
+非对称加密也叫做`公钥加密`。非对称加密与对称加密相比，其安全性更好。对称加密的通信双方使用相同的密钥，如果一方的密钥遭泄露，那么整个通信就会被破解。而非对称加密使用一对密钥，即公钥和私钥，且二者成对出现。私钥被自己保存，不能对外泄露。公钥指的是公共的密钥，任何人都可以获得该密钥。用公钥或私钥中的任何一个进行加密，用另一个进行解密。
 
 摘要
 
