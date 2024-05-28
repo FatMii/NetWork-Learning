@@ -16,6 +16,25 @@ Origin: http://example.com
 
 ```
 
+```javascript
+// 创建ws连接
+const ws = new WebSocket('ws://localhost:8080/test');
+ws.onopen = function() {
+    console.log('WebSocket 连接已经建立。');
+    ws.send('Hello, server!');
+};
+ws.onmessage = function(event) {
+    console.log('收到服务器消息：', event.data);
+};
+ws.onerror = function(event) {
+    console.error('WebSocket 连接出现错误：', event);
+};
+ws.onclose = function() {
+    console.log('WebSocket 连接已经关闭。');
+}
+```
+
+
 
 # 2.与 HTTP 协议的区别
 
