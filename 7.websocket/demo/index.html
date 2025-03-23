@@ -9,38 +9,38 @@
     <button id="sendBtn">发送消息</button>
     <textarea id="messageBox" readonly></textarea>
     <script>
-              const sendBtn = document.getElementById('sendBtn');
-      const messageBox = document.getElementById('messageBox');
+      const sendBtn = document.getElementById("sendBtn");
+      const messageBox = document.getElementById("messageBox");
 
       // 创建 WebSocket 对象
-      const socket = new WebSocket('ws://echo.websocket.org'); // 使用一个 WebSocket 服务器进行测试
+      const socket = new WebSocket("ws://echo.websocket.org"); // 使用一个 WebSocket 服务器进行测试
 
       // 设置 WebSocket 连接打开时的回调函数
-      socket.onopen = function() {
-         console.log('WebSocket 连接已打开');
+      socket.onopen = function () {
+        console.log("WebSocket 连接已打开");
       };
 
       // 设置 WebSocket 接收到消息时的回调函数
-      socket.onmessage = function(event) {
-         console.log('WebSocket 接收到消息:', event.data);
-         messageBox.value += event.data + '\n';
+      socket.onmessage = function (event) {
+        console.log("WebSocket 接收到消息:", event.data);
+        messageBox.value += event.data + "\n";
       };
 
       // 设置 WebSocket 发生错误时的回调函数
-      socket.onerror = function() {
-         console.log('WebSocket 发生错误');
+      socket.onerror = function () {
+        console.log("WebSocket 发生错误");
       };
 
       // 设置 WebSocket 连接关闭时的回调函数
-      socket.onclose = function() {
-         console.log('WebSocket 连接已关闭');
+      socket.onclose = function () {
+        console.log("WebSocket 连接已关闭");
       };
 
       // 点击按钮时发送消息
-      sendBtn.onclick = function() {
-         const message = 'Hello, WebSocket!';
-         socket.send(message);
-         messageBox.value += '发送消息: ' + message + '\n';
+      sendBtn.onclick = function () {
+        const message = "Hello, WebSocket!";
+        socket.send(message);
+        messageBox.value += "发送消息: " + message + "\n";
       };
     </script>
   </body>

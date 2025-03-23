@@ -97,17 +97,17 @@ WebSocket在建立连接时需要进行握手阶段。握手阶段包括以下�
 
 客户端向服务端发送请求，请求建立WebSocket连接。
 
-请求中包含一个Connection: Upgrade参数，用于标识希望连接升级
+请求中包含一个`Connection: Upgrade`参数，用于标识希望连接升级
 
-请求中包含一个Upgrade: WebSocket参数，用于标识该请求是WebSocket连接。
+请求中包含一个`Upgrade: WebSocke`t参数，用于标识该请求是WebSocket连接。
 
-请求中包含一个Sec-WebSocket-Key参数，用于生成WebSocket的随机密钥。
+请求中包含一个`Sec-WebSocket-Key`参数，用于生成WebSocket的随机密钥。
 
-服务端接收到请求后，生成一个随机密钥，并使用随机密钥生成一个新的Sec-WebSocket-Accept参数。
+服务端接收到请求后，生成一个随机密钥，并使用随机密钥生成一个新的`Sec-WebSocket-Accept`参数。
 
-客户端接收到服务端发送的新的Sec-WebSocket-Accept参数后，使用原来的随机密钥和新的Sec-WebSocket-Accept参数共同生成一个新的Sec-WebSocket-Key参数，用于加密数据传输。
+客户端接收到服务端发送的新的`Sec-WebSocket-Accept`参数后，使用原来的随机密钥和新的`Sec-WebSocket-Accept`参数共同生成一个新的`Sec-WebSocket-Key`参数，用于加密数据传输。
 
-客户端将新的Sec-WebSocket-Key参数发送给服务端，服务端接收到后，使用该参数加密数据传输。
+客户端将新的`Sec-WebSocket-Key`参数发送给服务端，服务端接收到后，使用该参数加密数据传输。
 
 ## 3.2  数据传输阶段
 
@@ -156,7 +156,7 @@ Close 帧：Close 帧用于关闭客户端和服务端之间的连接，它包�
 
 # WebSocket 的安全性和跨域问题如何处理？
 
-WebSocket 支持通过 wss:// 前缀建立加密的安全连接，使用 TLS/SSL 加密通信，确保数据的安全性。在使用加密连接时，服务器需要配置相应的证书。
+WebSocket 支持通过` wss://` 前缀建立加密的安全连接，使用 TLS/SSL 加密通信，确保数据的安全性。在使用加密连接时，服务器需要配置相应的证书。
 对于跨域问题，WebSocket 遵循同源策略，只能与同源的服务器建立连接。如果需要与不同域的服务器通信，可以使用 CORS（跨域资源共享）来进行跨域访问控制。
 
 # WebSocket 的性能如何优化？有哪些注意事项和最佳实践？
@@ -168,22 +168,12 @@ WebSocket 支持通过 wss:// 前缀建立加密的安全连接，使用 TLS/SSL
 - 数据压缩：可以使用压缩算法对数据进行压缩，减少网络传输的数据量。
 - 服务器端优化：合理配置服务器端的连接数和资源管理，以支持更多的并发连接
 
-
-
 ## WebSocket 的缺点：
 
 兼容性：部分老旧的浏览器可能不支持 WebSocket，需要进行兼容处理。
 服务器支持：服务器需要支持 WebSocket 协议和相关处理逻辑。
 
-## 长轮询的优点：
 
-兼容性：长轮询可以在所有支持 HTTP 的浏览器中使用。
-简单实现：相对于 WebSocket，长轮询的实现较为简单。
-
-## 长轮询的缺点：
-
-延迟较高：由于需要不断发起轮询请求，延迟相对较高。
-频繁的请求：长轮询需要频繁地发送请求，增加了服务器的负载。
 
 
 # 谈谈websocket的心跳机制和重连机制

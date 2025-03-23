@@ -13,7 +13,7 @@ CSP（Content-Security-Policy）指的是内容安全策略，它的本质是建
 截由浏览器自己来实现。
 
 通常有两种方式来开启 CSP
-- 一种是设置 HTTP 首部中的Content-Security-Policy
+- 一种是设置 HTTP 首部中的`Content-Security-Policy`
   
 - 一种是设置 meta 标签的方式
    <meta http-equiv="Content-Security-Policy">
@@ -67,7 +67,7 @@ document.getElementById('content').innerHTML = maliciousScript;
 假设有一个搜索页面，用户的搜索词通过URL参数传递，如 https://example.com/search?q=keyword。
 如果服务器将用户输入的搜索词直接反射在页面上，攻击者可以通过构造恶意的URL来实施攻击。例如：
 
-```php
+```javascript
 https://example.com/search?q=<script>alert('XSS')</script>
 ```
 
@@ -88,38 +88,54 @@ https://example.com/search?q=<script>alert('XSS')</script>
 
 - 3、DOM型 （DOM-based or local XSS） 即基于DOM或本地的 XSS 攻击：其实是一种特殊类型的反射型 XSS，它是基于 DOM文档对象模型的一种漏洞。可以通过 DOM来动态修改页面内容，从客户端获取 DOM中的数据并在本地执行。基于这个特性，就可以利用 JS脚本来实现 XSS漏洞的利用。
 
-考虑一个网页，其中包含以下JavaScript代码：
+假设有一个网页，用户可以通过输入框输入内容，然后点击按钮将内容显示在页面上。攻击者在输入框中输入了恶意脚本。
 
-```javascript
-document.getElementById('output').innerHTML = location.hash.substring(1);
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DOM-based XSS Example</title>
+</head>
+<body>
+  <input type="text" id="userInput" />
+  <button onclick="displayInput()">Submit</button>
+  <div id="output"></div>
+
+  <script>
+    function displayInput() {
+      const userInput = document.getElementById('userInput').value;
+      document.getElementById('output').innerHTML = userInput;
+    }
+  </script>
+</body>
+</html>
 ```
 
-如果一个用户访问如下URL：
+攻击者的输入：
+<script>alert('XSS Attack!');</script>
+用户点击按钮后，页面的 JavaScript 代码将输入内容直接插入到 DOM 中：
 
-```javascript
-https://example.com/#<img src=x onerror=alert('XSS')>
+```html
+<div id="output"><script>alert('XSS Attack!');</script></div>
 ```
-
-此代码片段会将 URL 的哈希部分（<img src=x onerror=alert('XSS')>）直接设置为页面元素的 innerHTML，从而执行恶意代码。
-
-
 
 ### 防范手段：
 1. 输入过滤
 2. 输出过滤
 3. 加 httponly 请求头  锁死cookie (浏览器将禁止页面的Javascript 访问带有 HttpOnly 属性的Cookie)
+4. CSP (Content Security Policy)
 
 # CSRF：Cross-site request forgery 
 
 跨站请求伪造
 
-```javascript
-1.  用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A；
+
+1.  用户打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A；
 2.  在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器，此时用户登录网站A成功，可以正常发送请求到网站A；
 3.  用户未退出网站A之前，在同一浏览器中，打开一个TAB页访问网站B；
 4.  网站B接收到用户请求后，返回一些攻击性代码，并发出一个请求要求访问第三方站点A；
 5.  浏览器在接收到这些攻击性代码后，根据网站B的请求，在用户不知情的情况下携带Cookie信息，向网站A发出请求。网站A并不知道该请求其实是由B发起的，所以会根据用户C的Cookie信息以C的权限处理该请求，导致来自网站B的恶意代码被执行。 
-```
+
 
 ```javascript
 <!-- index.html -->
@@ -137,7 +153,8 @@ https://example.com/#<img src=x onerror=alert('XSS')>
   <script src="payload.js"></script>
 </body>
 </html>
-
+```
+```javascript
 // payload.js
 const maliciousScript = `
   const form = document.getElementById('transfer-form');
